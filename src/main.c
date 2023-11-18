@@ -22,7 +22,7 @@ int main(void) {
 		Word *word = find(idx, buffer);
 
 		if (word == NULL) {
-			cell n = 0;
+			Cell n = 0;
 			if (!number(idx, buffer, &n)) {
 				printf("?%.*s\n", (int)idx, buffer);
 			} else {

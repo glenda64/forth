@@ -11,11 +11,11 @@ enum {
     LINE_MAX = 4096,
 };
 
-typedef intptr_t cell;
+typedef intptr_t Cell;
 
 typedef struct {
     size_t top;
-    cell array[STACK_MAX];
+    Cell array[STACK_MAX];
 } Stack;
 
 typedef struct {
@@ -26,7 +26,7 @@ typedef struct {
 typedef struct Word {
     struct Word *next;
     const char *name;
-    size_t name_len;
+    size_t len;
     bool is_c;
     union {
         Thread thread;
@@ -37,14 +37,14 @@ typedef struct Word {
 extern Stack stack;
 extern Word *dict;
 
-void push(cell);
-cell pop(void);
+void push(Cell);
+Cell pop(void);
 
 void dict_add_c(const char *, void (*)(void));
 void dict_add_core(void);
 
 Word *find(size_t, const char *);
 void execute(Word *);
-bool number(size_t, const char *, cell *);
+bool number(size_t, const char *, Cell *);
 
 #endif

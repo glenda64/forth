@@ -6,7 +6,7 @@
 Stack stack;
 Word *dict = NULL;
 
-void push(cell x) {
+void push(Cell x) {
 	if (stack.top == STACK_MAX - 1) {
 		printf("!overflow\n");
 		exit(EXIT_FAILURE); // TODO better error handling
@@ -15,7 +15,7 @@ void push(cell x) {
 	stack.array[stack.top++] = x;
 }
 
-cell pop(void) {
+Cell pop(void) {
 	if (stack.top == 0) {
 		printf("!underflow");
 		exit(EXIT_FAILURE); // TODO
@@ -29,7 +29,7 @@ void dict_add_c(const char *name, void (*fn)()) {
 	*word = (Word) {
 		.next = dict,
 		.name = name,
-		.name_len = strlen(name),
+		.len = strlen(name),
 		.is_c = true,
 		.code.fn = fn,
 	};
@@ -38,7 +38,7 @@ void dict_add_c(const char *name, void (*fn)()) {
 
 Word *find(size_t len, const char *name) {
 	for (Word *word = dict; word != NULL; word = word->next) {
-		if (word->name_len == len && memcmp(word->name, name, len) == 0)
+		if (word->len == len && memcmp(word->name, name, len) == 0)
 			return word;
 	}
 
@@ -53,13 +53,13 @@ void execute(Word *word) {
 	}
 }
 
-bool number(size_t len, const char *str, cell *n) {
+bool number(size_t len, const char *str, Cell *n) {
 	char *buf = malloc(len+1);
 	strcpy(buf, str);
 	buf[len] = '\0';
 
 	char *endptr;
-	cell m = strtol(buf, &endptr, 10);
+	Cell m = strtol(buf, &endptr, 10);
 	if (*endptr == '\0') {
 		*n = m;
 		return true;
